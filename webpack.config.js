@@ -1,6 +1,5 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const HtmlWebpackTemplate = require('html-webpack-template')
 const path = require('path')
 
 module.exports = {
@@ -17,6 +16,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
+        exclude: /node_modules/,
       },
       {
         test: /\.(js|jsx)$/,
@@ -26,12 +26,12 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.css']
+    extensions: ['.js', '.jsx']
   },
   plugins: [
     new HtmlWebpackPlugin({
       inject: false,
-      template: HtmlWebpackTemplate,
+      template: 'src/index.html',
       appMountId: 'app',
     }),
   ],

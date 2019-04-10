@@ -1,162 +1,285 @@
 import React from 'react'
 import { render } from 'react-dom'
-import Styles from './Styles'
 import { Form, Field } from 'react-final-form'
+import { TextField, Checkbox, Radio, Select } from 'final-form-material-ui'
+import {
+  Typography,
+  Paper,
+  Link,
+  Grid,
+  Button,
+  CssBaseline,
+  RadioGroup,
+  FormLabel,
+  MenuItem,
+  FormGroup,
+  FormControl,
+  FormControlLabel,
+} from '@material-ui/core'
+import DateFnsUtils from '@date-io/date-fns'
+import {
+  MuiPickersUtilsProvider,
+} from 'material-ui-pickers'
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+import DatePickerWrapper from './components/DatePicker'
+import TimePickerWrapper from './components/TimePicker'
+
 
 const onSubmit = async values => {
+  const sleep = (ms=1000) => new Promise(resolve => setTimeout(resolve, ms))
   await sleep(300)
   window.alert(JSON.stringify(values, 0, 2))
 }
 
-const App = () => (
-  <Styles>
-    <h1>🏁 React Final Form - Simple Example</h1>
-    <a href="https://github.com/erikras/react-final-form#-react-final-form">
-      Read Docs
-    </a>
-    <Form
-      onSubmit={onSubmit}
-      initialValues={{ stooge: 'larry', employed: false }}
-      render={({ handleSubmit, form, submitting, pristine, values }) => (
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>First Name</label>
-            <Field
-              name="firstName"
-              component="input"
-              type="text"
-              placeholder="First Name"
-            />
-          </div>
-          <div>
-            <label>Last Name</label>
-            <Field
-              name="lastName"
-              component="input"
-              type="text"
-              placeholder="Last Name"
-            />
-          </div>
-          <div>
-            <label>Employed</label>
-            <Field name="employed" component="input" type="checkbox" />
-          </div>
-          <div>
-            <label>Favorite Color</label>
-            <Field name="favoriteColor" component="select">
-              <option />
-              <option value="#ff0000">❤️ Red</option>
-              <option value="#00ff00">💚 Green</option>
-              <option value="#0000ff">💙 Blue</option>
-            </Field>
-          </div>
-          <div>
-            <label>Toppings</label>
-            <Field name="toppings" component="select" multiple>
-              <option value="chicken">🐓 Chicken</option>
-              <option value="ham">🐷 Ham</option>
-              <option value="mushrooms">🍄 Mushrooms</option>
-              <option value="cheese">🧀 Cheese</option>
-              <option value="tuna">🐟 Tuna</option>
-              <option value="pineapple">🍍 Pineapple</option>
-            </Field>
-          </div>
-          <div>
-            <label>Sauces</label>
-            <div>
-              <label>
-                <Field
-                  name="sauces"
-                  component="input"
-                  type="checkbox"
-                  value="ketchup"
-                />{' '}
-                Ketchup
-              </label>
-              <label>
-                <Field
-                  name="sauces"
-                  component="input"
-                  type="checkbox"
-                  value="mustard"
-                />{' '}
-                Mustard
-              </label>
-              <label>
-                <Field
-                  name="sauces"
-                  component="input"
-                  type="checkbox"
-                  value="mayonnaise"
-                />{' '}
-                Mayonnaise
-              </label>
-              <label>
-                <Field
-                  name="sauces"
-                  component="input"
-                  type="checkbox"
-                  value="guacamole"
-                />{' '}
-                Guacamole 🥑
-              </label>
-            </div>
-          </div>
-          <div>
-            <label>Best Stooge</label>
-            <div>
-              <label>
-                <Field
-                  name="stooge"
-                  component="input"
-                  type="radio"
-                  value="larry"
-                />{' '}
-                Larry
-              </label>
-              <label>
-                <Field
-                  name="stooge"
-                  component="input"
-                  type="radio"
-                  value="moe"
-                />{' '}
-                Moe
-              </label>
-              <label>
-                <Field
-                  name="stooge"
-                  component="input"
-                  type="radio"
-                  value="curly"
-                />{' '}
-                Curly
-              </label>
-            </div>
-          </div>
-          <div>
-            <label>Notes</label>
-            <Field name="notes" component="textarea" placeholder="Notes" />
-          </div>
-          <div className="buttons">
-            <button type="submit" disabled={submitting || pristine}>
-              Submit
-            </button>
-            <button
-              type="button"
-              onClick={form.reset}
-              disabled={submitting || pristine}
-            >
-              Reset
-            </button>
-          </div>
-          <pre>{JSON.stringify(values, 0, 2)}</pre>
-        </form>
-      )}
-    />
-  </Styles>
-)
+const validate = values => {
+  const errors = {}
+  if (!values.firstName) {
+    errors.firstName = 'Required'
+  }
+  if (!values.lastName) {
+    errors.lastName = 'Required'
+  }
+  if (!values.email) {
+    errors.email = 'Required'
+  }
+  return errors
+}
 
-render(<App />, document.getElementById("app"));
+function App() {
+  return (
+    <div style={{ padding: 16, margin: 'auto', maxWidth: 600 }}>
+      <CssBaseline />
+      <Typography variant="h4" align="center" component="h1" gutterBottom>
+        🏁 React Final Form
+      </Typography>
+      <Typography variant="h5" align="center" component="h2" gutterBottom>
+        Material-UI Example
+      </Typography>
+      <Typography paragraph>
+        <Link href="https://github.com/erikras/react-final-form#-react-final-form">
+          Read Docs
+        </Link>
+        . This example demonstrates using{' '}
+        <Link href="https://material-ui.com/demos/text-fields/">
+          Material-UI
+        </Link>{' '}
+        form controls.
+      </Typography>
+      <Form
+        onSubmit={onSubmit}
+        initialValues={{ employed: true, stooge: 'larry' }}
+        validate={validate}
+        render={({ handleSubmit, reset, submitting, pristine, values, form }) => (
+          <form onSubmit={handleSubmit} noValidate>
+            <Paper style={{ padding: 16 }}>
+              <Grid container alignItems="flex-start" spacing={8}>
+                <Grid item xs={6}>
+                  <Field
+                    fullWidth
+                    required
+                    name="firstName"
+                    component={TextField}
+                    type="text"
+                    label="First Name"
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Field
+                    fullWidth
+                    required
+                    name="lastName"
+                    component={TextField}
+                    type="text"
+                    label="Last Name"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Field
+                    name="email"
+                    fullWidth
+                    required
+                    component={TextField}
+                    type="email"
+                    label="Email"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControlLabel
+                    label="Employed"
+                    control={
+                      <Field
+                        name="employed"
+                        component={Checkbox}
+                        type="checkbox"
+                      />
+                    }
+                  />
+                </Grid>
+                <Grid item>
+                  <FormControl component="fieldset">
+                    <FormLabel component="legend">Best Stooge</FormLabel>
+                    <RadioGroup row>
+                      <FormControlLabel
+                        label="Larry"
+                        control={
+                          <Field
+                            name="stooge"
+                            component={Radio}
+                            type="radio"
+                            value="larry"
+                          />
+                        }
+                      />
+                      <FormControlLabel
+                        label="Moe"
+                        control={
+                          <Field
+                            name="stooge"
+                            component={Radio}
+                            type="radio"
+                            value="moe"
+                          />
+                        }
+                      />
+                      <FormControlLabel
+                        label="Curly"
+                        control={
+                          <Field
+                            name="stooge"
+                            component={Radio}
+                            type="radio"
+                            value="curly"
+                          />
+                        }
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </Grid>
+                <Grid item>
+                  <FormControl component="fieldset">
+                    <FormLabel component="legend">Sauces</FormLabel>
+                    <FormGroup row>
+                      <FormControlLabel
+                        label="Ketchup"
+                        control={
+                          <Field
+                            name="sauces"
+                            component={Checkbox}
+                            type="checkbox"
+                            value="ketchup"
+                          />
+                        }
+                      />
+                      <FormControlLabel
+                        label="Mustard"
+                        control={
+                          <Field
+                            name="sauces"
+                            component={Checkbox}
+                            type="checkbox"
+                            value="mustard"
+                          />
+                        }
+                      />
+                      <FormControlLabel
+                        label="Salsa"
+                        control={
+                          <Field
+                            name="sauces"
+                            component={Checkbox}
+                            type="checkbox"
+                            value="salsa"
+                          />
+                        }
+                      />
+                      <FormControlLabel
+                        label="Guacamole 🥑"
+                        control={
+                          <Field
+                            name="sauces"
+                            component={Checkbox}
+                            type="checkbox"
+                            value="guacamole"
+                          />
+                        }
+                      />
+                    </FormGroup>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <Field
+                    fullWidth
+                    name="notes"
+                    component={TextField}
+                    multiline
+                    label="Notes"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Field
+                    fullWidth
+                    name="city"
+                    component={Select}
+                    label="Select a City"
+                    formControlProps={{ fullWidth: true }}
+                  >
+                    <MenuItem value="London">London</MenuItem>
+                    <MenuItem value="Paris">Paris</MenuItem>
+                    <MenuItem value="Budapest">
+                      A city with a very long Name
+                    </MenuItem>
+                  </Field>
+                </Grid>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid item xs={6}>
+                    <Field
+                      name="rendez-vous"
+                      component={DatePickerWrapper}
+                      fullWidth
+                      margin="normal"
+                      label="Rendez-vous"
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Field
+                      name="alarm"
+                      component={TimePickerWrapper}
+                      fullWidth
+                      margin="normal"
+                      label="Alarm"
+                    />
+                  </Grid>
+                </MuiPickersUtilsProvider>
+                <Grid item style={{ marginTop: 16 }}>
+                  <Button
+                    type="button"
+                    variant="contained"
+                    onClick={() => {
+                      form.reset()
+                    }}
+                    disabled={submitting || pristine}
+                  >
+                    Reset
+                  </Button>
+                </Grid>
+                <Grid item style={{ marginTop: 16 }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    disabled={submitting}
+                  >
+                    Submit
+                  </Button>
+                </Grid>
+              </Grid>
+            </Paper>
+            <pre>{JSON.stringify(values, 0, 2)}</pre>
+          </form>
+        )}
+      />
+    </div>
+  )
+}
+
+render(<App />, document.getElementById('app'))
