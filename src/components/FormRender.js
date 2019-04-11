@@ -261,6 +261,5 @@ export default ({ handleSubmit, submitting, pristine, values, form }) => (
         </Grid>
       </Grid>
     </Paper>
-    <pre>{JSON.stringify(values, 0, 2)}</pre>
   </form>
 )

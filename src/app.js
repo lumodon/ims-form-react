@@ -4,16 +4,30 @@ import { Form } from 'react-final-form'
 import createDecorator from 'final-form-calculate'
 import {
   Typography,
-  Link,
   CssBaseline,
 } from '@material-ui/core'
 import formRender from './components/FormRender'
 
+window.addEventListener('message', evt => {
+  let data
+  try {
+    data = JSON.parse(evt.data)
+  } catch(err) {
+    if(!err.message.includes('Unexpected token'))
+      throw err
+    data = evt.data
+  }
+
+  console.log('\ninside-data:\n', data)
+})
+
 const onSubmit = async values => {
+  if(!parent) {
+    console.warn('Document not loaded into server')
+  }
   const sleep = (ms=1000) => new Promise(resolve => setTimeout(resolve, ms))
   await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-  console.log(JSON.stringify(values, 0, 2))
+  parent.postMessage(JSON.stringify(values), '*')
 }
 
 const validate = values => {
@@ -23,9 +37,6 @@ const validate = values => {
   }
   if (!values.source) {
     errors.source = 'Required'
-  }
-  if (!values.mfgDate) {
-    errors.mfgDate = 'Required'
   }
   return errors
 }
@@ -37,9 +48,10 @@ const calculator = createDecorator({
     total: (ignoredValue, allValues) => {
       let sum = 0
       const allValuesCopy = {...allValues}
-      delete allValuesCopy.total
       for(const key in (allValuesCopy || {})) {
-        sum += Number(allValuesCopy[key] || 0)
+        if(/.*weight$/.test(key)) {
+          sum += Number(allValuesCopy[key] || 0)
+        }
       }
       return String(Math.round(100000*sum)/100000)
     }
@@ -50,21 +62,8 @@ function App() {
   return (
     <div style={{ padding: 16, margin: 'auto', maxWidth: 600 }}>
       <CssBaseline />
-      <Typography variant="h4" align="center" component="h1" gutterBottom>
-        🏁 Chain Of Custody 🏁
-      </Typography>
       <Typography variant="h5" align="center" component="h2" gutterBottom>
         Manufacturing Department
-      </Typography>
-      <Typography paragraph>
-        <Link href="https://github.com/erikras/react-final-form#-react-final-form">
-          Read Docs
-        </Link>
-        . This example demonstrates using{' '}
-        <Link href="https://material-ui.com/demos/text-fields/">
-          Material-UI
-        </Link>{' '}
-        form controls.
       </Typography>
       <Form
         onSubmit={onSubmit}
