@@ -9,13 +9,14 @@ import {
   FormLabel,
   FormControl,
   FormControlLabel,
+  Typography,
 } from '@material-ui/core'
 import DateFnsUtils from '@date-io/date-fns'
 import {
   MuiPickersUtilsProvider,
 } from 'material-ui-pickers'
-import DatePickerWrapper from './DatePicker'
-import SavedForms from './SavedForms'
+import DatePickerWrapper from '../DatePicker'
+import SavedForms from '../SavedForms'
 import withStyle from 'react-jss'
 
 const styles = {
@@ -38,6 +39,9 @@ const StyledGrid = withStyle(styles)(BoxGrid)
 
 export default ({ handleSubmit, submitting, pristine, values, form }) => (
   <form onSubmit={handleSubmit} noValidate>
+    <Typography variant="h5" align="center" component="h2" gutterBottom>
+      Manufacturing Department
+    </Typography>
     <Paper style={{ padding: 16 }}>
       <Grid container alignItems="flex-start" spacing={8}>
         <SavedForms/>

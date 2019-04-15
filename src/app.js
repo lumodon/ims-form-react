@@ -3,10 +3,11 @@ import { render } from 'react-dom'
 import { Form } from 'react-final-form'
 import createDecorator from 'final-form-calculate'
 import {
-  Typography,
   CssBaseline,
 } from '@material-ui/core'
-import formRender from './components/FormRender'
+import Manufacturing from './components/Forms/Manufacturing'
+import FillRoom from './components/Forms/FillRoom'
+import FormSelection from './components/FormSelection'
 
 window.addEventListener('message', evt => {
   let data
@@ -17,8 +18,6 @@ window.addEventListener('message', evt => {
       throw err
     data = evt.data
   }
-
-  console.log('\ninside-data:\n', data)
 })
 
 const onSubmit = async values => {
@@ -62,16 +61,24 @@ function App() {
   return (
     <div style={{ padding: 16, margin: 'auto', maxWidth: 600 }}>
       <CssBaseline />
-      <Typography variant="h5" align="center" component="h2" gutterBottom>
-        Manufacturing Department
-      </Typography>
-      <Form
-        onSubmit={onSubmit}
-        initialValues={{}}
-        validate={validate}
-        decorators={[calculator]}
-        render={formRender}
-      />
+      <FormSelection>
+        <Form
+          onSubmit={onSubmit}
+          initialValues={{}}
+          validate={validate}
+          decorators={[calculator]}
+          render={Manufacturing}
+          name='Manufacturing'
+        />
+        <Form
+          onSubmit={onSubmit}
+          initialValues={{}}
+          validate={validate}
+          decorators={[calculator]}
+          render={FillRoom}
+          name='Fill_Room'
+        />
+      </FormSelection>
     </div>
   )
 }
