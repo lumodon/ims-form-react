@@ -77,7 +77,7 @@ function App() {
           validate={validate}
           decorators={[calculator]}
           render={FillRoom}
-          name='Fill_Room'
+          name='Fill Room'
           img='intake'
         />
       </FormSelection>
