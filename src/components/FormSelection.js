@@ -4,9 +4,6 @@ import {
 } from '@material-ui/core'
 import withStyle from 'react-jss'
 
-import BatchCreation from '../../public/svgr/batch_creation'
-import Intake from '../../public/svgr/intake'
-import Spinner from 'react-svg-spinner'
 import SvgLazyLoader from './SvgLazyLoader'
 
 const styles = {
@@ -53,10 +50,15 @@ const styles = {
   },
   formName: {
     padding: '1px',
+    display: 'flex',
+    alignItems: 'center',
+    margin: '2px',
   },
   formLink: {
-    border: 'solid red 1px',
-    margin: '1px'
+    margin: '1px',
+    color: 'black',
+    fontWeight: 'bold',
+    textDecorationLine: 'none',
   },
   updateButton: {
     backgroundColor: 'green'
