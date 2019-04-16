@@ -4,6 +4,11 @@ import {
 } from '@material-ui/core'
 import withStyle from 'react-jss'
 
+import BatchCreation from '../../public/svgr/batch_creation'
+import Intake from '../../public/svgr/intake'
+import Spinner from 'react-svg-spinner'
+import SvgLazyLoader from './SvgLazyLoader'
+
 const styles = {
   formSelectionContainer: {
     display: 'grid',
@@ -102,6 +107,7 @@ class FormSelection extends Component {
             key={index}
             className={classes.formName}
           >
+            <SvgLazyLoader path={child.props.img}/>
             <a href='#' className={classes.formLink}>{child.props.name}</a>
           </div>
         )) : null

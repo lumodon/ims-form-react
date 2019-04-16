@@ -69,6 +69,7 @@ function App() {
           decorators={[calculator]}
           render={Manufacturing}
           name='Manufacturing'
+          img='batch_creation'
         />
         <Form
           onSubmit={onSubmit}
@@ -77,6 +78,7 @@ function App() {
           decorators={[calculator]}
           render={FillRoom}
           name='Fill_Room'
+          img='intake'
         />
       </FormSelection>
     </div>

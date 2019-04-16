@@ -7,13 +7,13 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     chunkFilename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
   },
   watch: true,
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
-    port: 5000
+    port: 5000,
   },
   devtool: 'source-map',
   module: {
@@ -27,11 +27,11 @@ module.exports = {
         test: /\.(js|jsx)$/,
         use: 'babel-loader',
         exclude: /node_modules/,
-      }
+      },
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
   },
   plugins: [
     new HtmlWebpackPlugin({
