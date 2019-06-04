@@ -59,7 +59,7 @@ const calculator = createDecorator({
 
 function App() {
   return (
-    <div style={{ padding: 16, margin: 'auto', maxWidth: 600 }}>
+    <div style={{ padding: 5, margin: 0, width: '100%', height: '100%'}}>
       <CssBaseline />
       <FormSelection>
         <Form
