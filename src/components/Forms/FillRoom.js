@@ -30,12 +30,6 @@ const styles = {
   }
 }
 
-const formStyles = {
-  wideSelect: {
-    width: '100%',
-  }
-}
-
 const BoxGrid = ({classes, children}) => (
   <div className={classes.boxedGrid}>
     {children}
@@ -69,8 +63,6 @@ class FillRoom extends Component {
   }
 
   render() {
-    const { classes } = this.props
-
     return (
     <form onSubmit={this.handleSubmit} noValidate>
       <Typography variant="h5" align="center" component="h2" gutterBottom>
@@ -104,7 +96,7 @@ class FillRoom extends Component {
               required
               name="batch_id"
               component="select"
-              // className={classes.wideSelect}
+              style={{width: '50%', height: 30, margin: '10px 25%'}}
             >
               <option />
               {this.state.batch_numbers_available.map((batch_num, index) => (
