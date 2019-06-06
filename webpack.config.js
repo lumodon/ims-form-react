@@ -13,6 +13,7 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
+    disableHostCheck: true,
     port: 5000,
   },
   devtool: 'source-map',
