@@ -1,0 +1,5 @@
+rsync -avz -e "ssh -i ~/.ssh/<YOUR PEM GOES HERE>.pem" ./dist <USERNAME>@ec2-<EC2 ADDRESS LOCATION>.amazonaws.com:/home/<PATH TO REACT INVENTORY CLONE>
+# Repalce all bracks with logical alternatives. 
+# Not literal replacements. Remove extras preceding and folllwing <> examples - 
+# just there to help identify what part is being looked for
+
