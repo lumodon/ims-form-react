@@ -133,7 +133,7 @@ export default ({ handleSubmit, submitting, pristine, values, form }) => (
         <Grid item xs={3}>
           <Field
             fullWidth
-            name="tareweight"
+            name="tareweightcalc"
             component={TextField}
             label="Tare Weight"
             onChange={(e) => {
@@ -144,9 +144,10 @@ export default ({ handleSubmit, submitting, pristine, values, form }) => (
         <Grid item xs={3}>
           <Field
             fullWidth
-            name="oilweight"
+            name="totalcalc"
             component={TextField}
-            label="Oil Weight"
+            placeholder="Total"
+            label="Total Weight"
             onChange={(...e) => {
               console.log(...e)
             }}
@@ -155,10 +156,9 @@ export default ({ handleSubmit, submitting, pristine, values, form }) => (
         <Grid item xs={6}>
           <Field
             fullWidth
-            name="total"
+            name="oilyield"
             component={TextField}
-            placeholder="Total"
-            label="Total Weight (calculated result)"
+            label="Oil Weight (calculated result)"
             InputProps={{
               readOnly: true,
             }}

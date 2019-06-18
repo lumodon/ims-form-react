@@ -41,18 +41,20 @@ const validate = values => {
 }
 
 const calculator = createDecorator({
-  field: /.*weight$/, // when a field matching this pattern changes...
+  field: /.*calc$/,
   updates: {
-    // ...update the total to the result of this function
-    total: (ignoredValue, allValues) => {
-      let sum = 0
-      const allValuesCopy = {...allValues}
-      for(const key in (allValuesCopy || {})) {
-        if(/.*weight$/.test(key)) {
-          sum += Number(allValuesCopy[key] || 0)
-        }
+    oilyield: (ignoredValue, allValues) => {
+      if(!allValues['totalcalc']) {
+        return 'Missing Total Weight'
+      } else if(!allValues['tareweightcalc']) {
+        return 'Missing Tare Weight'
+      } else if(allValues['totalcalc'] < allValues['tareweightcalc']) {
+        return 'Total weight less than tare weight'
       }
-      return String(Math.round(100000*sum)/100000)
+      else {
+        const difference = allValues['totalcalc'] - allValues['tareweightcalc']
+        return String(Math.round(100000*difference)/100000)
+      }
     }
   }
 })
