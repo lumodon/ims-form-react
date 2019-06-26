@@ -5,7 +5,7 @@ import createDecorator from 'final-form-calculate'
 import {
   CssBaseline,
 } from '@material-ui/core'
-import Manufacturing from './components/Forms/Manufacturing'
+import Formations from './components/Forms/Formations'
 import FillRoom from './components/Forms/FillRoom'
 import FormSelection from './components/FormSelection'
 
@@ -69,8 +69,8 @@ function App() {
           initialValues={{}}
           validate={validate}
           decorators={[calculator]}
-          render={Manufacturing}
-          name='Manufacturing'
+          render={Formations}
+          name='Formations'
           img='batch_creation'
         />
         <Form

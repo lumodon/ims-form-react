@@ -40,31 +40,11 @@ const StyledGrid = withStyle(styles)(BoxGrid)
 export default ({ handleSubmit, submitting, pristine, values, form }) => (
   <form onSubmit={handleSubmit} noValidate>
     <Typography variant="h5" align="center" component="h2" gutterBottom>
-      Manufacturing Department
+      Formations Department
     </Typography>
     <Paper style={{ padding: 16 }}>
       <Grid container alignItems="flex-start" spacing={8}>
         <SavedForms/>
-        <Grid item xs={6}>
-          <Field
-            fullWidth
-            required
-            name="desiredQty"
-            component={TextField}
-            type="text"
-            label="Desired Quantity"
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <Field
-            fullWidth
-            required
-            name="source"
-            component={TextField}
-            type="text"
-            label="Source"
-          />
-        </Grid>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Grid item xs={12}>
             <Field

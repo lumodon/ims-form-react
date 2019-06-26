@@ -71,7 +71,7 @@ class FillRoom extends Component {
       <Paper style={{ padding: 16 }}>
         <Grid container alignItems="flex-start" spacing={8}>
           <SavedForms/>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Field
               fullWidth
               required
@@ -79,6 +79,16 @@ class FillRoom extends Component {
               component={TextField}
               type="text"
               label="Filled By"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Field
+              fullWidth
+              required
+              name="desiredQty"
+              component={TextField}
+              type="text"
+              label="Desired Quantity"
             />
           </Grid>
           <Grid item xs={6}>
