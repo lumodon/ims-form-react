@@ -20,6 +20,7 @@ import withStyle from 'react-jss'
 import DatePickerWrapper from '../DatePicker'
 import SavedForms from '../SavedForms'
 import UsersListInput from '../UsersListInput'
+import AppendableField from '../AppendableField'
 
 const styles = {
   boxedGrid: {
@@ -148,12 +149,7 @@ export default function Formations({ handleSubmit, submitting, pristine, values,
             />
           </Grid>
           <Grid item xs={6}>
-            <Field
-              fullWidth
-              name="distillatebatch"
-              component={TextField}
-              label="Distillate Batch #"
-            />
+            <AppendableField name="distallatebatch" label="Distillate Batch #" />
           </Grid>
           <Grid item xs={6}>
             <Field

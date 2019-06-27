@@ -7,7 +7,7 @@ export default function UsersListInput({ name, label }) {
   return (
     <UsersDispatch.Consumer>
       {(usersListContext) => (
-        <>
+        <div style={{display: 'flex', flexDirection: 'column'}}>
           <label htmlFor={name}>{label}</label>
           <Field
             required
@@ -20,7 +20,7 @@ export default function UsersListInput({ name, label }) {
               <option key={index} value={user}>{user}</option>
             ))}
           </Field>
-        </>
+        </div>
       )}
     </UsersDispatch.Consumer>
   )

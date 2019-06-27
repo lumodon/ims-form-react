@@ -67,7 +67,6 @@ const calculator = createDecorator({
 })
 
 function App() {
-
   const [state, dispatch] = useReducer(userReducer)
 
   useEffect(() => {
