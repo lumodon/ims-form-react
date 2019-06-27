@@ -1,5 +1,4 @@
 export const userReducer = (state, action) => {
-  console.error('REDUCER USED state: ', state, '\naction: ', action)
   void state
   switch (action.type) {
     case 'update':

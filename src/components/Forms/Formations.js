@@ -190,12 +190,7 @@ export default function Formations({ handleSubmit, submitting, pristine, values,
             </Grid>
             <Grid container>
               <Grid item xs={6}>
-                <Field
-                  fullWidth
-                  name="inventorymanager"
-                  component={TextField}
-                  label="Inventory Manager"
-                />
+                <UsersListInput name="inventorymanager" label="Inventory Manager" />
               </Grid>
               <Grid item xs={6}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>

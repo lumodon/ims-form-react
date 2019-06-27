@@ -56,8 +56,9 @@ const calculator = createDecorator({
         return 'Missing Tare Weight'
       } else if(allValues['totalcalc'] < allValues['tareweightcalc']) {
         return 'Total weight less than tare weight'
-      }
-      else {
+      } else if(allValues['totalcalc'] - allValues['tareweightcalc'] === NaN) {
+        return 'Non-Numerical values detected. Please only enter numbers.'
+      } else {
         const difference = allValues['totalcalc'] - allValues['tareweightcalc']
         return String(Math.round(100000*difference)/100000)
       }
@@ -82,8 +83,6 @@ function App() {
       didCancel = true
     }
   }, [])
-
-  console.error('REDUCER BUILT', state)
 
   const spinnerContainer = (
     <div style={{ width: '35vw', height: '35vh', margin: '30vh auto' }}>
