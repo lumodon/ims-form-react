@@ -13,7 +13,13 @@ export default function UsersListInput({ name, label }) {
             required
             name={name}
             component="select"
-            style={{boxShadow: '0 0 10px gray', margin: '5px 0', width: '70%', height: 30, textTransform: 'capitalize'}}
+            style={{
+              boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12)',
+              margin: '5px 0',
+              width: '70%',
+              height: 30,
+              textTransform: 'capitalize'
+            }}
           >
             <option />
             {usersListContext.map((user, index) => (

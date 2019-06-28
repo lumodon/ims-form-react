@@ -18,11 +18,16 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
   },
   customTextField: {
-    fontSize: '1.2em',
+    fontSize: '1.1em',
+    padding: 5,
+    margin: 5,
   },
   heightLimit: {
-    height: 50,
-  }
+    height: 40,
+  },
+  smMargin: {
+    margin: '5px 0',
+  },
 }))
 
 function CustomTextField({ label, controlledValue, onValueChange }) {
@@ -38,12 +43,6 @@ function CustomTextField({ label, controlledValue, onValueChange }) {
   )
 }
 
-/**
- * @param {string} fieldIndex - Key
- * @param {string} name - Form name for input field
- * @param {string} label - Display label
- * @param {function} removeItem - Callback for clicking delete button
- */
 export default function FieldListItem({ fieldIndex, name, label, removeItem, setControlledValue, controlledValue }) {
   const classes = useStyles()
 
@@ -60,7 +59,7 @@ export default function FieldListItem({ fieldIndex, name, label, removeItem, set
   }, [controlledValue])
 
   return (
-    <div className={clsx(classes.flex, classes.heightLimit)}>
+    <div className={clsx(classes.flex, classes.heightLimit, classes.smMargin)}>
       <Field
         className={clsx(classes.input, classes.heightLimit)}
         fullWidth
