@@ -20,7 +20,7 @@ import withStyle from 'react-jss'
 import DatePickerWrapper from '../DatePicker'
 import SavedForms from '../SavedForms'
 import UsersListInput from '../UsersListInput'
-import AppendableField from '../AppendableField'
+import AppendableField from '../AppendableField/AppendableField'
 
 const styles = {
   boxedGrid: {

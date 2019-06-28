@@ -48,8 +48,7 @@ const validate = values => {
 const calculator = createDecorator({
   field: /.*calc$/,
   updates: {
-    oilyield: (ignoredValue, allValues) => {
-      void ignoredValue
+    oilyield: (_ignoredValue, allValues) => {
       if(!allValues['totalcalc']) {
         return 'Missing Total Weight'
       } else if(!allValues['tareweightcalc']) {

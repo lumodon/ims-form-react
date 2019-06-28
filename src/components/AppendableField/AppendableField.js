@@ -1,23 +1,21 @@
-import React, { useReducer, useState } from 'react'
+import React, { useReducer, useState, useCallback } from 'react'
+import clsx from 'clsx'
 import { makeStyles } from '@material-ui/styles'
 import Paper from '@material-ui/core/Paper'
 import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
+import PlusSymbol from '@material-ui/icons/AddCircleOutline'
 import DropDownIcon from '@material-ui/icons/ArrowDropDownCircle'
 import RemoveIcon from '@material-ui/icons/RemoveCircle'
-import { Field } from 'react-final-form'
-import { TextField } from 'final-form-material-ui'
 
-const useStyles = makeStyles({
+import Switch from '@material-ui/core/Switch'
+import Collapse from '@material-ui/core/Collapse'
+
+const useStyles = makeStyles(() => ({
   root: {
     padding: '2px 4px',
     display: 'flex',
     alignItems: 'center',
     width: 400,
-  },
-  input: {
-    marginLeft: 8,
-    flex: 1,
   },
   iconButton: {
     padding: 10,
@@ -29,19 +27,26 @@ const useStyles = makeStyles({
     margin: 4,
   },
   flexColumn: {
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   flex: {
-    display: 'flex'
+    display: 'flex',
   },
   flexEnd: {
     alignSelf: 'flex-start',
-    flex: '1 0 auto'
+    flex: '1 0 auto',
   },
   minWidth: {
-    minWidth: '300px'
+    minWidth: 300,
+  },
+  paper: {
+    margin: 10,
+  },
+  customSwitch: {
+    transform: 'translateX(15px)',
+    marginBottom: -15,
   }
-})
+}))
 
 /**
  * @function :  dataReducer
@@ -68,12 +73,12 @@ const reducer = (currentState, action) => {
 }
 
 const initialState = {
-  'listOfFields': []
+  'listOfFields': [{name: 0}]
 }
 
-export default function AppendableField({name, label}) {
+export default function AppendableField({ name, label }) {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const [listDisplayed, setListDisplayed] = useState(false)
+  const [listDisplayed, setListDisplayed] = useState(true)
   const classes = useStyles()
 
   const addEmpty = () => {
@@ -85,50 +90,59 @@ export default function AppendableField({name, label}) {
     })
   }
 
-  const removeItem = key => () => {
+  const removeItem = useCallback(key => () => {
     dispatch({type: 'removeFromList', fieldName: key})
-  }
+  }, [dispatch])
 
   const fieldListDisplay = () => {
     if(listDisplayed) {
-      const displayList = state.listOfFields.map((field, fieldIndex) => (
-        <div key={fieldIndex} className={classes.flex}>
-          <Field
-            className={classes.input}
-            fullWidth
-            key={fieldIndex}
-            name={name + fieldIndex}
-            component={TextField}
-            label={label}
-          />
-          <IconButton onClick={removeItem(fieldIndex)} className={classes.iconButton}>
-            <RemoveIcon />
-          </IconButton>
-        </div>
-      ))
-      return displayList
+      return 
     }
-    return null
+    return 
   }
 
-  const toggleList = () => {
-    setListDisplayed(!listDisplayed)
-  }
+  const toggleList = useCallback(() => {
+      setListDisplayed(prev => !prev)
+    },
+    [setListDisplayed],
+  )
 
   return (
     <Paper className={`${classes.root} ${classes.flex}`}>
       <div
         style={{paddingBottom: '10px'}}
-        className={`${classes.flexColumn} ${classes.flex} ${classes.minWidth}`}
+        className={clsx(classes.flexColumn, classes.flex, classes.minWidth)}
       >
-        {fieldListDisplay()}
+        <Collapse in={listDisplayed} out={String(!listDisplayed)} collapsedHeight="60px">
+          <Paper elevation={3} className={classes.paper}>
+            {
+              listDisplayed
+              ? state.listOfFields.map(({}, fieldIndex) => (
+                <FieldListItem key={name + String(fieldIndex)} fieldIndex={fieldIndex} />
+              ))
+              : <FieldListItem fieldIndex={0} removeItem={removeItem} />
+            }
+          </Paper>
+        </Collapse>
       </div>
-      <div className={`${classes.flexColumn} ${classes.flex} ${classes.flexEnd}`}>
-        <IconButton onClick={toggleList} className={classes.iconButton} aria-label="Menu">
-          <MenuIcon />
-        </IconButton>
+      <div className={clsx(classes.flexColumn, classes.flex, classes.flexEnd)}>
+        <Switch
+          classes={{
+            switchBase: classes.iOSSwitchBase,
+            bar: classes.iOSBar,
+            icon: classes.iOSIcon,
+            iconChecked: classes.iOSIconChecked,
+            checked: classes.iOSChecked,
+          }}
+          disableRipple
+          color="primary"
+          checked={listDisplayed}
+          onChange={toggleList}
+          value="Show"
+          className={classes.customSwitch}
+        />
         <IconButton onClick={addEmpty} color="primary" className={classes.iconButton} aria-label="Drop Down">
-          <DropDownIcon />
+          <PlusSymbol />
         </IconButton>
       </div>
     </Paper>
