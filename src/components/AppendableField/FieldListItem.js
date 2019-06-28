@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { Field } from 'react-final-form'
 import { makeStyles } from '@material-ui/styles'
+import { TextField } from 'final-form-material-ui'
 import IconButton from '@material-ui/core/IconButton'
 import RemoveIcon from '@material-ui/icons/RemoveCircle'
 import clsx from 'clsx'
@@ -30,22 +31,24 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-function CustomTextField({ label, controlledValue, onValueChange }) {
+function CustomTextField({ label, controlledValue, onValueChange, input: {name}, input, meta }) {
   const classes = useStyles()
 
   return (
-    <input
+    <TextField
       value={controlledValue}
+      name={name}
       className={clsx(classes.customTextField, classes.heightLimit)}
       placeholder={label}
       onChange={onValueChange}
-    ></input>
+      input={input}
+      meta={meta}
+    />
   )
 }
 
 export default function FieldListItem({ fieldIndex, name, label, removeItem, setControlledValue, controlledValue }) {
   const classes = useStyles()
-
   const useRemoveItem = useCallback(() => {
       setControlledValue('', fieldIndex)
       removeItem(fieldIndex)
@@ -68,7 +71,6 @@ export default function FieldListItem({ fieldIndex, name, label, removeItem, set
         label={label}
         controlledValue={controlledValue}
         onValueChange={changeHandler}
-        withRef
       />
       {fieldIndex > 0 && (
         <IconButton onClick={useRemoveItem} className={classes.iconButton}>

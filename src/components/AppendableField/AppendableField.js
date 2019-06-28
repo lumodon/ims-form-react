@@ -62,12 +62,12 @@ export default function AppendableField({ name, label }) {
   const [state, dispatch] = useReducer(reducer, initialState)
   const [listDisplayed, setListDisplayed] = useState(true)
   const [listCloseAnim, setListCloseAnim] = useState(true)
-  const [isRendered, setIsRendered] = useState(true)
+  const [didCancel, setDidCancel] = useState(false)
   const classes = useStyles()
 
   useEffect(() => {
     return () => {
-      setIsRendered(false)
+      setDidCancel(true)
     }
   }, [])
 
@@ -90,7 +90,7 @@ export default function AppendableField({ name, label }) {
       // Delay umounting children for animation on close
       if(listDisplayed) {
         setTimeout(() => {
-          if(isRendered) {
+          if(!didCancel) {
             setListDisplayed(!listDisplayed)
           }
         }, 750)

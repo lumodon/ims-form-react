@@ -23,6 +23,7 @@ window.addEventListener('message', evt => {
       throw err
     data = evt.data
   }
+  console.log(data)
 })
 
 const onSubmit = async values => {
@@ -49,16 +50,22 @@ const calculator = createDecorator({
   field: /.*calc$/,
   updates: {
     oilyield: (_ignoredValue, allValues) => {
-      if(!allValues['totalcalc']) {
+      const copyOfValues = {}
+      for(const typeName in allValues) {
+        if(!isNaN(Number(allValues[typeName]))) {
+          copyOfValues[typeName] = Number(allValues[typeName])
+        }
+      }
+      if(!copyOfValues['totalcalc']) {
         return 'Missing Total Weight'
-      } else if(!allValues['tareweightcalc']) {
+      } else if(!copyOfValues['tareweightcalc']) {
         return 'Missing Tare Weight'
-      } else if(allValues['totalcalc'] < allValues['tareweightcalc']) {
-        return 'Total weight less than tare weight'
-      } else if(allValues['totalcalc'] - allValues['tareweightcalc'] === NaN) {
+      } else if(isNaN(copyOfValues['totalcalc']) || isNaN(copyOfValues['tareweightcalc'])) {
         return 'Non-Numerical values detected. Please only enter numbers.'
+      } else if(copyOfValues['totalcalc'] < copyOfValues['tareweightcalc']) {
+        return 'Total weight less than tare weight'
       } else {
-        const difference = allValues['totalcalc'] - allValues['tareweightcalc']
+        const difference = copyOfValues['totalcalc'] - copyOfValues['tareweightcalc']
         return String(Math.round(100000*difference)/100000)
       }
     }
@@ -96,7 +103,6 @@ function App() {
           <Form
             onSubmit={onSubmit}
             initialValues={{}}
-            validate={validate}
             decorators={[calculator]}
             render={Formations}
             name='Formations'
