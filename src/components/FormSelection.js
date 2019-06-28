@@ -79,8 +79,6 @@ class FormSelection extends Component {
         iteration: 0,
       },
     }
-
-    console.log(`\nChildren:\n`, this.props.children, `\n`)
   }
 
   handleClick(delta) {
@@ -104,14 +102,14 @@ class FormSelection extends Component {
   render() {
     const formsAvailable = classes => (
       this.props.children instanceof Array ? this.props.children
-        .map((child, index) => (
-          <div
-            key={index}
-            className={classes.formName}
-          >
-            <SvgLazyLoader path={child.props.img}/>
-            <a href='#' className={classes.formLink}>{child.props.name}</a>
-          </div>
+        .map((child, index, originalArrDebugMe) => (
+            <div
+              key={index}
+              className={classes.formName}
+            >
+              <SvgLazyLoader path={child.props.img}/>
+              <a href='#' className={classes.formLink}>{child.props.name}</a>
+            </div>
         )) : null
     )
     const FormSelectionContainer = ({classes, children}) => (

@@ -1,24 +1,25 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import Spinner from 'react-svg-spinner'
 
-export default class SvgLazyLoader extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      svgComponent: () => (<Spinner />)
-    }
-
-    import(`../../public/svgr/${props.path}`)
-      .then(svgComponent => {
-        console.log('lazyload: ', svgComponent.default)
-        this.setState({ svgComponent: svgComponent.default })
+export default function SvgLazyLoader({ path }) {
+  const [svgComponent, setSvgComponent] = useState({'svgC': () => <Spinner />})
+  useEffect(() => {
+    let didCancel = false
+    import(`../../public/svgr/${path}`)
+      .then(loadedComponent => {
+        if(!didCancel) {
+          setSvgComponent({'svgC': loadedComponent.default})
+        }
       })
-  }
-  render() {
-    return (
-      <div>
-        {this.state.svgComponent()}
-      </div>
-    )
-  }
+
+    return () => {
+      didCancel = true
+    }
+  }, [path])
+
+  return (
+    <div>
+      {svgComponent.svgC()}
+    </div>
+  )
 }
